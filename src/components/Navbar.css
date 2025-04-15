@@ -1,0 +1,58 @@
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #121212;
+    padding: 10px 20px;
+    color: white;
+    font-family: Arial, sans-serif;
+}
+
+/* IMDb Logo - Leftmost */
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo .imdb-logo {
+    background-color: #f5c518;
+    color: black;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 3px;
+    font-size: 18px;
+}
+
+/* Move menu to the left, right after the logo */
+.button {
+    margin-bottom: 9px;
+    margin-left: 50px;
+    margin-right: 100px;
+}
+
+.menu-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 21px;
+    cursor: pointer;
+}
+
+/* IMDbPro & Watchlist on Right Side */
+.links {
+    margin-left: auto;  /* Pushes IMDbPro & Watchlist to the right */
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+
+.watchlist {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.watchlist:hover {
+    text-decoration: underline;
+}
