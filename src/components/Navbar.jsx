@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Menu from "./Menu";
+import { useAuth } from "./AuthContext";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
+  const { currentUser, logout } = useAuth();
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -15,11 +17,19 @@ export default function Navbar() {
     }
   };
 
+  const handleLogout = async () => {
+    try {
+      await logout();
+      navigate('/');
+    } catch (error) {
+      console.error('Failed to log out', error);
+    }
+  };
+
   return (
     <>
       <nav className="bg-black text-white px-4 py-3 sticky top-0 z-50 shadow-md">
         <div className="container mx-auto flex items-center justify-between">
-          {/* Left - Logo and Menu */}
           {/* Left - Logo and Menu */}
           <div className="flex items-center space-x-4">
             <Link to="/" className="flex items-center">
@@ -69,10 +79,9 @@ export default function Navbar() {
                 Search
               </button>
             </form>
-
           </div>
 
-          {/* Right - Watchlist and Sign In */}
+          {/* Right - Watchlist and Sign In/Out */}
           <div className="flex items-center space-x-6">
             <Link
               to="/watchlist"
@@ -93,12 +102,27 @@ export default function Navbar() {
               </svg>
               Watchlist
             </Link>
-            <Link
-              to="/sign-in"
-              className="bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-full text-white transition-colors"
-            >
-              Sign In
-            </Link>
+            
+            {currentUser ? (
+              <div className="flex items-center space-x-4">
+                <span className="text-gray-300">
+                  {currentUser.displayName || 'User'}
+                </span>
+                <button
+                  onClick={handleLogout}
+                  className="bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-full text-white transition-colors"
+                >
+                  Sign Out
+                </button>
+              </div>
+            ) : (
+              <Link
+                to="/sign-in"
+                className="bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-full text-white transition-colors"
+              >
+                Sign In
+              </Link>
+            )}
           </div>
         </div>
       </nav>

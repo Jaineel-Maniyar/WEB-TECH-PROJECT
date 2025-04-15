@@ -6,6 +6,7 @@ import CategoryPill from '../components/CategoryPill';
 import SearchBar from '../components/Searchbar';
 import { Helmet } from 'react-helmet';
 
+
 export default function HomePage() {
   const navigate = useNavigate();
   const [trendingMovies, setTrendingMovies] = useState([]);
@@ -271,7 +272,7 @@ export default function HomePage() {
           </h2>
           
           <motion.div 
-            className="flex flex-wrap gap-3"
+            className="ml-7 flex flex-wrap gap-3"
             variants={itemVariants}
           >
             {categories.map((category, index) => (
@@ -327,10 +328,10 @@ export default function HomePage() {
               WatchWise
             </h2>
             <div className="flex space-x-6">
-              <a href="#" className="text-gray-400 hover:text-white transition">About</a>
-              <a href="#" className="text-gray-400 hover:text-white transition">Contact</a>
-              <a href="#" className="text-gray-400 hover:text-white transition">API</a>
-              <a href="#" className="text-gray-400 hover:text-white transition">Privacy</a>
+              <a target='blank' href="https://www.imdb.com/" className="text-gray-400 hover:text-white transition">About</a>
+              <a target='blank' href="https://www.instagram.com/jaineel_1711" className="text-gray-400 hover:text-white transition">Contact</a>
+              <a target='blank' href="https://www.imdb.com/privacy/adpreferences/?ref_=pvc_redir" className="text-gray-400 hover:text-white transition">Privacy</a>
+              <a target='blank' href="https://play.google.com/store/apps/details?id=com.imdb.mobile&hl=en_IN" className="text-gray-400 hover:text-white transition">Get App</a>
             </div>
           </div>
           <div className="text-center text-gray-500 text-sm">

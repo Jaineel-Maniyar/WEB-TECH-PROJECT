@@ -40,14 +40,14 @@ export default function Watchlist() {
 
   if (isLoading) {
     return (
-      <div className="w-100% h-100% bg-black text-white flex justify-center items-center">
+      <div className="min-w-screen min-h-screen bg-black text-white flex justify-center items-center">
         <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-yellow-400"></div>
       </div>
     );
   }
 
   return (
-    <div className="w-100% min-h-100% bg-black text-white">
+    <div className="min-w-screen min-h-screen bg-black text-white">
       {/* Header section with title */}
       <div className="w-full py-16 bg-gradient-to-b from-black via-gray-900 to-black">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
