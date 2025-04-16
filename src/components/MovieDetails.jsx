@@ -22,31 +22,62 @@ export default function MovieDetails() {
   const [hoverRating, setHoverRating] = useState(0);
   const [watchlist, setWatchlist] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
 
   useEffect(() => {
-    // Fetch movie details
     setLoading(true);
+    setError(null);
+
+    // Format to proper IMDb ID - ensures all IDs start with "tt"
+    const formattedId = id.startsWith('tt') ? id : `tt${id}`;
+
     axios
-      .get(`https://www.omdbapi.com/?i=${id}&apikey=${API_KEY}`)
+      .get(`https://www.omdbapi.com/?i=${formattedId}&apikey=${API_KEY}`)
       .then((res) => {
+        if (res.data.Response === "False") {
+          setError(res.data.Error || "Movie not found");
+          setLoading(false);
+          return;
+        }
+
         setMovie(res.data);
         fetchTrailer(res.data.Title);
         setLoading(false);
       })
       .catch((err) => {
         console.error("Error fetching movie details:", err);
+        setError("Failed to fetch movie details. Please try again later.");
+        setLoading(false);
+      });
+    axios
+      .get(`https://www.omdbapi.com/?i=${formattedId}&apikey=${API_KEY}&type=series`)
+      .then((res) => {
+        if (res.data.Response === "False") {
+          setError(res.data.Error || "Series not found");
+          setLoading(false);
+          return;
+        }
+        
+
+        setMovie(res.data);
+        fetchTrailer(res.data.Title);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("Error fetching series details:", err);
+        setError("Failed to fetch series details. Please try again later.");
         setLoading(false);
       });
 
-    // Load reviews from local storage
+
+    // Load reviews and watchlist
     const savedReviews = JSON.parse(localStorage.getItem(`reviews-${id}`)) || [];
     setReviews(savedReviews);
 
-    // Load watchlist from local storage
     const savedWatchlist = JSON.parse(localStorage.getItem("watchlist")) || [];
     setWatchlist(savedWatchlist);
   }, [id]);
-
   const fetchTrailer = async (movieTitle) => {
     try {
       // For development purposes, let's mock a trailer URL instead of requiring the backend
@@ -72,16 +103,16 @@ export default function MovieDetails() {
       alert("Please provide a rating and a non-empty review!");
       return;
     }
-    
+
     const isDuplicate = reviews.some(
       (r) => r.text.trim() === userReview.trim() && r.rating === selectedRating
     );
-    
+
     if (isDuplicate) {
       alert("You’ve already submitted a review with the same text and rating.");
       return;
     }
-    
+
     const newReview = {
       rating: selectedRating,
       text: userReview,

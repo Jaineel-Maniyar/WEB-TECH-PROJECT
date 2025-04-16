@@ -4,6 +4,7 @@ import { AuthProvider } from './components/AuthContext';
 import HomePage from "./components/HomePage";
 import MovieDetails from "./components/MovieDetails";
 import MovieList from "./components/MovieList";
+import TVShowList from "./components/TVShowList"; // Import TVShowList component
 import Watchlist from "./components/Watchlist";
 import Navbar from "./components/Navbar";
 import Login from './components/Login';
@@ -26,7 +27,7 @@ function Layout() {
         <Route path="/search/:query" element={<MovieList />} />
         <Route path="/category/:category" element={<MovieList />} />
         <Route path="/trending" element={<MovieList />} />
-        <Route path="/tv" element={<MovieList />} />
+        <Route path="/tv" element={<TVShowList />} /> {/* Updated to TVShowList */}
       </Routes>
     </>
   );

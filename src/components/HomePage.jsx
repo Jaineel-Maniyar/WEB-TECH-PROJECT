@@ -5,6 +5,7 @@ import MovieCard from '../components/MovieCard';
 import CategoryPill from '../components/CategoryPill';
 import SearchBar from '../components/Searchbar';
 import { Helmet } from 'react-helmet';
+import { Link } from 'react-router-dom';
 
 
 export default function HomePage() {
@@ -12,44 +13,44 @@ export default function HomePage() {
   const [trendingMovies, setTrendingMovies] = useState([]);
   const [categories, setCategories] = useState([]);
 
+  // Inside your HomePage.jsx useEffect
   useEffect(() => {
     setTrendingMovies([
       {
-        id: 1,
-        title: 'Dune: Part Two',
-        rating: 8.7,
-        year: 2024,
-        poster: 'https://image.tmdb.org/t/p/w500/8b8R8l88Qje9dn9OE8PY05Nxl1X.jpg',
+        id: "tt4154796", // IMDb ID for Avengers: Endgame
+        title: "Avengers: Endgame",
+        rating: 8.4,
+        year: 2019,
+        poster: "https://image.tmdb.org/t/p/w500/or06FN3Dka5tukK1e9sl16pB3iy.jpg",
       },
+
       {
-        id: 2,
+        imdbID: "tt15398776", // Changed to proper IMDb ID format
         title: 'Oppenheimer',
         rating: 8.9,
         year: 2023,
         poster: 'https://image.tmdb.org/t/p/w500/ptpr0kGAckfQkJeJIt8st5dglvd.jpg',
       },
       {
-        id: 3,
+        imdbID: "tt1877830", // Changed to proper IMDb ID format
         title: 'The Batman',
         rating: 8.3,
         year: 2022,
         poster: 'https://image.tmdb.org/t/p/w500/74xTEgt7R36Fpooo50r9T25onhq.jpg',
       },
       {
-        id: 4,
+        imdbID: "tt14230458", // Changed to proper IMDb ID format
         title: 'Poor Things',
         rating: 8.5,
         year: 2023,
         poster: 'https://image.tmdb.org/t/p/w500/kCGlIMHnOm8JPXq3rXM6c5wMxcT.jpg',
       },
       {
-        id: 5,
+        imdbID: "tt9218128", // Changed to proper IMDb ID format
         title: 'Gladiator II',
         rating: 9.1,
         year: 2024,
         poster: 'https://media.themoviedb.org/t/p/w600_and_h900_bestv2/2cxhvwyEwRlysAmRH4iodkvo0z5.jpg',
-
-
       },
     ]);
 
@@ -66,7 +67,7 @@ export default function HomePage() {
       'Historical',
       'Fantasy',
       'Animation'
-      
+
     ]);
   }, []);
 
@@ -85,6 +86,27 @@ export default function HomePage() {
     hidden: { y: 20, opacity: 0 },
     visible: { y: 0, opacity: 1 },
   };
+  const handleAddToWatchlist = () => {
+    const movie = {
+      id: "galactic-odyssey",
+      title: "The Galactic Odyssey",
+      poster: "your-poster-url.jpg", // optional if you have an image
+      year: "2025", // optional
+    };
+
+    const existingList = JSON.parse(localStorage.getItem("watchlist")) || [];
+
+    // Avoid duplicates
+    const alreadyAdded = existingList.some((item) => item.id === movie.id);
+    if (!alreadyAdded) {
+      const updatedList = [...existingList, movie];
+      localStorage.setItem("watchlist", JSON.stringify(updatedList));
+      alert("Movie added to watchlist!");
+    } else {
+      alert("Movie is already in your watchlist!");
+    }
+  };
+
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black text-white">
@@ -146,8 +168,10 @@ export default function HomePage() {
             onClick={() => navigate('/tv')}
             className="bg-blue-500 text-white font-bold px-6 py-3 rounded-full shadow-lg hover:shadow-blue-500/50 transition-all"
           >
-            📺 TV Shows
+            <Link to="/tvshows">📺 TV Shows</Link>
+
           </motion.button>
+
         </motion.div>
 
         <motion.a
@@ -213,12 +237,12 @@ export default function HomePage() {
                 variants={itemVariants}
                 whileHover={{ y: -10, transition: { duration: 0.2 } }}
               >
-                <MovieCard movie={movie} onClick={() => navigate(`/movies/${movie.id}`)} />
+                <MovieCard movie={movie} onClick={() => navigate(`/movies/${movie.imdbID}`)} />
               </motion.div>
             ))}
           </div>
         </motion.section>
-  
+
 
 
         {/* Featured Movie */}
@@ -230,9 +254,9 @@ export default function HomePage() {
         >
           <div className="relative rounded-2xl overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-r from-black via-transparent to-transparent z-10"></div>
-            <img 
-              src="https://en.towerofsaviors.com/wp-content/uploads/2024/04/image-31.png" 
-              alt="Featured Movie" 
+            <img
+              src="https://en.towerofsaviors.com/wp-content/uploads/2024/04/image-31.png"
+              alt="Featured Movie"
               className="w-full h-96 md:h-[500px] object-cover"
             />
             <div className="absolute bottom-0 left-0 p-8 md:p-12 z-20 max-w-2xl">
@@ -241,24 +265,32 @@ export default function HomePage() {
                 <h2 className="text-4xl md:text-5xl font-bold mb-3">The Galactic Odyssey</h2>
                 <p className="text-gray-300 mb-6 text-lg">An epic space adventure that challenges the very nature of humanity and our place among the stars.</p>
                 <div className="flex space-x-4">
-                  <button className="bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-3 px-6 rounded-full flex items-center gap-2 transition">
+                  <button
+                    onClick={() => window.open("https://youtu.be/aHbNpCIzSbk", "_blank")}
+                    className="bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-3 px-6 rounded-full flex items-center gap-2 transition"
+                  >
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                       <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
                     </svg>
                     Watch Trailer
                   </button>
-                  <button className="bg-gray-800 hover:bg-gray-700 text-white font-bold py-3 px-6 rounded-full flex items-center gap-2 transition">
+
+                  <button
+                    onClick={handleAddToWatchlist}
+                    className="bg-gray-800 hover:bg-gray-700 text-white font-bold py-3 px-6 rounded-full flex items-center gap-2 transition"
+                  >
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                       <path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-2.5L5 18V4z" />
                     </svg>
                     Add to Watchlist
                   </button>
+
                 </div>
               </motion.div>
             </div>
           </div>
         </motion.section>
-        
+
         {/* Categories Section */}
         <motion.section
           variants={containerVariants}
@@ -270,13 +302,13 @@ export default function HomePage() {
           <h2 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-yellow-600">
             Browse by Category
           </h2>
-          
-          <motion.div 
+
+          <motion.div
             className="ml-7 flex flex-wrap gap-3"
             variants={itemVariants}
           >
             {categories.map((category, index) => (
-              <motion.div 
+              <motion.div
                 key={index}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -288,7 +320,7 @@ export default function HomePage() {
             ))}
           </motion.div>
         </motion.section>
-        
+
         {/* Call to Action */}
         <motion.section
           variants={containerVariants}
@@ -297,29 +329,32 @@ export default function HomePage() {
           viewport={{ once: true, amount: 0.1 }}
           className="bg-gradient-to-r from-yellow-400/20 to-pink-500/20 rounded-3xl p-10 md:p-16 text-center"
         >
-          <motion.h2 
+          <motion.h2
             variants={itemVariants}
             className="text-3xl md:text-4xl font-bold mb-4"
           >
             Ready to track your favorite movies?
           </motion.h2>
-          <motion.p 
+          <motion.p
             variants={itemVariants}
             className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto"
           >
             Create a free account to build your watchlist, rate movies, and get personalized recommendations.
           </motion.p>
-          <motion.button
-            variants={itemVariants}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-3 px-8 rounded-full text-lg transition-all shadow-lg hover:shadow-yellow-400/50"
-          >
-            Sign Up Now
-          </motion.button>
+          <Link to="/signup">
+            <motion.button
+              variants={itemVariants}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-3 px-8 rounded-full text-lg transition-all shadow-lg hover:shadow-yellow-400/50"
+            >
+              Sign Up Now
+            </motion.button>
+          </Link>
+
         </motion.section>
       </div>
-      
+
       {/* Footer */}
       <footer className="bg-black/80 py-12 border-t border-gray-800">
         <div className="container mx-auto px-4">
