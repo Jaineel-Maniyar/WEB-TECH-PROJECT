@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Menu from "./Menu";
 import { useAuth } from "./AuthContext";
+import SearchBar from '../components/Searchbar';
+
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -12,11 +14,10 @@ export default function Navbar() {
   const handleSearch = (e) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+      navigate(`/search/${encodeURIComponent(searchQuery.trim())}`);
       setSearchQuery("");
     }
   };
-
   const handleLogout = async () => {
     try {
       await logout();
